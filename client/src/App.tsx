@@ -16,6 +16,7 @@ import TalentPage from './pages/TalentPage'
 import ApplicationsPage from './pages/ApplicationsPage'
 import ApplicationDetailsPage from './pages/ApplicationDetailsPage'
 import CvsPage from './pages/CvsPage'
+import DemoBanner from './components/DemoBanner'
 
 export default function App() {
   return (
