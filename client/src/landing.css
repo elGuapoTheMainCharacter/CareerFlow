@@ -175,3 +175,10 @@ html { scroll-behavior: smooth; }
 .badge.status-Saved { background: #f2f4f7; color: #475467; }
 
 .notif.unread { border-left: 4px solid #f59e0b; background: #fffaf0; }
+.demo-banner {
+  background: #fef7c3;
+  color: #854a0e;
+  text-align: center;
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
+}
