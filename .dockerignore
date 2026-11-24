@@ -1,1 +1,9 @@
-
+**/bin
+**/obj
+**/Uploads
+client
+.git
+.vscode
+*.db
+*.db-shm
+*.db-wal
