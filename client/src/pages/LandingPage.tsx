@@ -4,7 +4,7 @@ import { authApi } from '../api/auth'
 import { publicJobsApi } from '../api/publicJobs'
 import JobCard from '../components/JobCard'
 
-// Edit these three before you show the site to recruiters.
+
 const BUILDER_NAME = 'ZS NKEFE'
 const CONTACT_EMAIL = 'you@example.com'
 const GITHUB_URL = 'https://github.com/your-username'
@@ -60,6 +60,10 @@ export default function LandingPage() {
         <p className="lp-stack">
           Built with ASP.NET Core · Entity Framework Core · Identity · React · TypeScript
         </p>
+        <p className="lp-stack">
+  Quick look? Employer: demo.employer@careerflow.dev / DemoEmployer123 ·
+  Job seeker: demo.seeker@careerflow.dev / DemoSeeker123
+</p>
       </section>
 
       <section id="how" className="lp-band">
