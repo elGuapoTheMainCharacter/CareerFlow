@@ -33,7 +33,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.Name = "careerflow.auth";
     options.Cookie.HttpOnly = true;
     options.Cookie.SameSite = SameSiteMode.Strict;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+    // Locally we run on plain http, so only demand HTTPS-only cookies when deployed.
+    options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
+        ? CookieSecurePolicy.SameAsRequest
+        : CookieSecurePolicy.Always;
     options.ExpireTimeSpan = TimeSpan.FromDays(7);
     options.SlidingExpiration = true;
     options.Events.OnRedirectToLogin = context =>
@@ -63,8 +66,8 @@ builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<OpportunityService>();
 builder.Services.AddScoped<ApplicationService>();
-builder.Services.AddScoped<ResumeStorageService>();
 builder.Services.AddScoped<EmployerApplicationService>();
+builder.Services.AddScoped<ResumeStorageService>();
 builder.Services.AddScoped<TalentService>();
 builder.Services.AddScoped<NotificationService>();
 
@@ -81,7 +84,8 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    // Unexpected errors become a safe JSON problem response, never a stack trace.
+    app.UseExceptionHandler();
     app.UseHsts();
 }
 
@@ -97,11 +101,17 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-await DbSeeder.SeedRolesAsync(app.Services);
+// Build the database from the migration files. On free hosting the disk is wiped
+// whenever the service sleeps or redeploys, so this runs on every cold start.
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+}
 
 await DbSeeder.SeedRolesAsync(app.Services);
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Configuration.GetValue<bool>("SeedDemoData"))
 {
     await DbSeeder.SeedDemoDataAsync(app.Services);
     await DbSeeder.SeedDemoApplicationsAsync(app.Services);
