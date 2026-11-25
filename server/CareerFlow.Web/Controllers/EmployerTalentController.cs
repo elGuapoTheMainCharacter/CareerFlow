@@ -13,11 +13,11 @@ public class EmployerTalentController(TalentService talent, ResumeStorageService
         Ok(await talent.SearchAsync(search, page));
 
     [HttpGet("{userId}/cv")]
-public async Task<IActionResult> Cv(string userId)
-{
-    var file = await storage.GetLatestForTalentAsync(userId);
-    return file is null ? NotFound() : File(file.Content, file.ContentType, file.FileName);
-}
+    public async Task<IActionResult> Cv(string userId)
+    {
+        var file = await storage.GetLatestForTalentAsync(userId);
+        return file is null ? NotFound() : File(file.Content, file.ContentType, file.FileName);
+    }
 
     [HttpPost("{userId}/invite")]
     public async Task<IActionResult> Invite(string userId, InviteRequest request)
