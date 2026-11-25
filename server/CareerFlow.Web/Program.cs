@@ -1,3 +1,4 @@
+
 using CareerFlow.Web.Data;
 using CareerFlow.Web.Models;
 using CareerFlow.Web.Services;
@@ -35,12 +36,15 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.Name = "careerflow.auth";
     options.Cookie.HttpOnly = true;
     options.Cookie.SameSite = SameSiteMode.Strict;
-    // Locally we run on plain http, so only demand HTTPS-only cookies when deployed.
+
+    // Locally we run on plain HTTP, so only demand HTTPS-only cookies when deployed.
     options.Cookie.SecurePolicy = builder.Environment.IsDevelopment()
         ? CookieSecurePolicy.SameAsRequest
         : CookieSecurePolicy.Always;
+
     options.ExpireTimeSpan = TimeSpan.FromDays(7);
     options.SlidingExpiration = true;
+
     options.Events.OnRedirectToLogin = context =>
     {
         if (context.Request.Path.StartsWithSegments("/api"))
@@ -48,9 +52,11 @@ builder.Services.ConfigureApplicationCookie(options =>
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             return Task.CompletedTask;
         }
+
         context.Response.Redirect(context.RedirectUri);
         return Task.CompletedTask;
     };
+
     options.Events.OnRedirectToAccessDenied = context =>
     {
         if (context.Request.Path.StartsWithSegments("/api"))
@@ -58,6 +64,7 @@ builder.Services.ConfigureApplicationCookie(options =>
             context.Response.StatusCode = StatusCodes.Status403Forbidden;
             return Task.CompletedTask;
         }
+
         context.Response.Redirect(context.RedirectUri);
         return Task.CompletedTask;
     };
@@ -74,7 +81,10 @@ builder.Services.AddScoped<TalentService>();
 builder.Services.AddScoped<NotificationService>();
 
 builder.Services.AddProblemDetails();
-builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
+
+builder.Services.AddAntiforgery(options =>
+    options.HeaderName = "X-CSRF-TOKEN");
+
 builder.Services.AddControllersWithViews(options =>
 {
     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
@@ -99,7 +109,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Health check endpoint for Render.
 app.MapGet("/healthz", () => Results.Ok("ok"));
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
