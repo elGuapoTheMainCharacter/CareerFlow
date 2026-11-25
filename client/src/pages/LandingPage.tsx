@@ -61,9 +61,8 @@ export default function LandingPage() {
           Built with ASP.NET Core · Entity Framework Core · Identity · React · TypeScript
         </p>
         <p className="lp-stack">
-  Quick look? Employer: demo.employer@careerflow.dev / DemoEmployer123 ·
-  Job seeker: demo.seeker@careerflow.dev / DemoSeeker123
-</p>
+  Quick look? Job seeker demo: demo.seeker@careerflow.dev / DemoSeeker123
+        </p>
       </section>
 
       <section id="how" className="lp-band">
