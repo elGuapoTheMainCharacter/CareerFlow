@@ -20,7 +20,7 @@ public class TalentService(AppDbContext db, ICurrentUserService currentUser)
         if (!string.IsNullOrWhiteSpace(search))
         {
             var term = search.Trim();
-            query = query.Where(u => EF.Functions.Like(u.DisplayName, $"%{term}%"));
+            query = query.Where(u => EF.Functions.ILike(u.DisplayName, $"%{term}%"));
         }
 
         var total = await query.CountAsync();
