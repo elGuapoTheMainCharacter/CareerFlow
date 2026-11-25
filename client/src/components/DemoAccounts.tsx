@@ -11,7 +11,14 @@ export default function DemoAccounts() {
         </p>
 
         <div className="lp-grid-2">
-          
+          <div className="lp-card">
+            <h3>Employer demo</h3>
+            <p>Review applicants, read CVs, accept or reject, and browse talent.</p>
+            <code className="demo-cred">{demoAccounts.employer.email}</code>
+            <code className="demo-cred">{demoAccounts.employer.password}</code>
+            <Link className="lp-btn lp-btn-primary" to="/login?demo=employer">Try the employer demo</Link>
+          </div>
+
           <div className="lp-card">
             <h3>Job seeker demo</h3>
             <p>Browse jobs, apply with a CV, track applications and get notified of decisions.</p>
