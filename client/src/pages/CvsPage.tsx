@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { resumesApi } from '../api/resumes'
 import { profileApi } from '../api/profile'
 
-const MAX_BYTES = 5 * 1024 * 1024
+const MAX_BYTES = 2 * 1024 * 1024
 
 export default function CvsPage() {
   const qc = useQueryClient()
@@ -37,7 +37,7 @@ export default function CvsPage() {
       return
     }
     if (file.size > MAX_BYTES) {
-      setLocalError('File must be 5 MB or smaller.')
+      setLocalError('File must be 2 MB or smaller.')
       return
     }
     setLocalError(null)
@@ -81,7 +81,7 @@ export default function CvsPage() {
       <div>
         <aside className="panel">
           <h2>Upload a CV</h2>
-          <p>PDF or DOCX, up to 5 MB. You can keep up to 5 CVs.</p>
+          <p>PDF or DOCX, up to 2 MB. You can keep up to 3 CVs.</p>
           <input type="file" accept=".pdf,.docx" onChange={onPick} disabled={upload.isPending} />
           {upload.isPending && <p>Uploading...</p>}
           {error && <p className="error">{error}</p>}
