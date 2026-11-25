@@ -24,7 +24,8 @@ public static class DbSeeder
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
         const string demoEmail = "demo.employer@careerflow.dev";
-        const string demoPassword = "DemoEmployer123";
+        var demoPassword = scope.ServiceProvider.GetRequiredService<IConfiguration>()["Seed:EmployerPassword"]
+    ?? "DemoEmployer123";
 
         // Idempotent: if the demo employer exists, the data was already seeded.
         if (await userManager.FindByEmailAsync(demoEmail) is not null) return;
@@ -113,7 +114,8 @@ public static class DbSeeder
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
         const string seekerEmail = "demo.seeker@careerflow.dev";
-        const string seekerPassword = "DemoSeeker123";
+        var seekerPassword = scope.ServiceProvider.GetRequiredService<IConfiguration>()["Seed:SeekerPassword"]
+    ?? "DemoSeeker123";
 
         if (await userManager.FindByEmailAsync(seekerEmail) is not null) return;
 
