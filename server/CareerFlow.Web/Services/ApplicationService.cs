@@ -19,8 +19,8 @@ public class ApplicationService(AppDbContext db, ICurrentUserService currentUser
         {
             var term = request.Search.Trim();
             query = query.Where(a =>
-                EF.Functions.Like(a.JobOpportunity!.Title, $"%{term}%") ||
-                EF.Functions.Like(a.JobOpportunity.Company!.Name, $"%{term}%"));
+                EF.Functions.ILike(a.JobOpportunity!.Title, $"%{term}%") ||
+                EF.Functions.ILike(a.JobOpportunity.Company!.Name, $"%{term}%"));
         }
 
         if (request.Status.HasValue)
