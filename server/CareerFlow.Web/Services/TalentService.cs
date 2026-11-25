@@ -36,6 +36,7 @@ public class TalentService(AppDbContext db, ICurrentUserService currentUser)
         var ids = people.Select(p => p.Id).ToList();
         var docs = await db.ResumeDocuments.AsNoTracking()
             .Where(r => ids.Contains(r.OwnerId))
+            .Select(r => new { r.OwnerId, r.OriginalFileName, r.UploadedAtUtc })
             .ToListAsync();
 
         var items = people
